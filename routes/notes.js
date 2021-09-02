@@ -4,7 +4,10 @@ const fs = require('fs');
 
 // get routes for the note
 notes.get('/', (req, res) => {
-    fs.readFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    fs.readFile('./db/db.json', (err, data) => {
+        if (err) {console.log(err);}
+        else {res.json(JSON.parse(data));}
+    });
 });
 
 //  post request 
