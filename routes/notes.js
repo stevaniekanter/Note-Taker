@@ -1,10 +1,10 @@
 const notes = require('express').Router();
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
+import { v4 as uuidv4 } from 'uuid';
+import { readFile, writeFile } from 'fs';
 
 // get routes for the note
 notes.get('/', (req, res) => {
-    fs.readFile('./db/db.json', (err, data) => {
+    readFile('./db/db.json', (err, data) => {
         if (err) {console.log(err);}
         else {res.json(JSON.parse(data));}
     });
@@ -19,17 +19,17 @@ notes.post('/', (req, res) => {
         text,
         id: uuidv4(),
       };
-      fs.readFile('./db/db.json', (err, data) => {
+      readFile('./db/db.json', (err, data) => {
         if (err) {console.log (err);}
         else {
           parsedData = JSON.parse(data);
           parsedData.push(newNote);
           startData = JSON.stringify(parsedData);
-          fs.writeFile("./db/db.json", startData, (err) => {
+          writeFile("./db/db.json", startData, (err) => {
             if (err) {
               console.log (err);
             } else {
-              fs.readFile("./db/db.json", (err, data) => {
+              readFile("./db/db.json", (err, data) => {
                 if (err) {
                   console.log(err);
                 } else {
@@ -48,18 +48,18 @@ notes.post('/', (req, res) => {
 // detele request
 notes.delete("/:id", (req, res) => {
     const id = req.params.id;
-    fs.readFile("./db/db.json", (err, data) => {
+    readFile("./db/db.json", (err, data) => {
       if (err) {
         console.log(err);
       } else {
         parsedData = JSON.parse(data);
         filterData = parsedData.filter((note) => note.id !== id)
         startData = JSON.stringify(filterData)
-        fs.writeFile("./db/db.json", startData, (err) => {
+        writeFile("./db/db.json", startData, (err) => {
           if (err) {
             console.log (err);
           } else {
-            fs.readFile("./db/db.json", (err, data) => {
+            readFile("./db/db.json", (err, data) => {
               if (err) {
                 console.log(err);
               } else {
@@ -72,4 +72,4 @@ notes.delete("/:id", (req, res) => {
     });
 });
   
-module.exports = notes;
+export default notes;
