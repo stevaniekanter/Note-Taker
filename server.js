@@ -1,5 +1,7 @@
 // Dependencies
 const express = require('express');
+const path = require('path');
+const api = require('./routes/routes');
 
 // Setting port
 const PORT = process.env.PORT || 3001;
@@ -12,15 +14,15 @@ app.use(express.json());
 // static assets
 app.use(express.static('public'));
 
-// GET Route for homepage
+// set the routes
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
-// GET Route for notes
-app.get('/feedback', (req, res) =>
+app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
+
 
 app.listen(PORT, () => 
 console.log(`Listening on PORT: ${PORT}`)
