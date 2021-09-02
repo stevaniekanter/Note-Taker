@@ -14,6 +14,8 @@ app.use(express.json());
 // static assets
 app.use(express.static('public'));
 
+app.use('/api', api);
+
 // set the routes
 app.get('/', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
